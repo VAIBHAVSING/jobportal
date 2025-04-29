@@ -12,7 +12,7 @@ async function getUsers() {
     const filePath = path.join(process.cwd(), 'src/data/users.json');
     const data = await fs.readFile(filePath, 'utf8');
     return JSON.parse(data);
-  } catch (error) {
+  } catch (_) {
     // If file doesn't exist, return empty array
     return [];
   }
@@ -36,16 +36,16 @@ const handler = NextAuth({
         }
 
         const users = await getUsers();
-        const user = users.find((user: any) => user.email === credentials.email);
+        const user = users.find((user: Record<string, unknown>) => user.email === credentials.email);
 
-        if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
+        if (!user || !(await bcrypt.compare(credentials.password, user.password as string))) {
           throw new Error("Invalid email or password");
         }
 
         return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
+          id: user.id as string,
+          name: user.name as string,
+          email: user.email as string,
         };
       },
     }),
@@ -66,7 +66,7 @@ const handler = NextAuth({
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.id;
+        (session.user as Record<string, unknown>).id = token.id;
       }
       return session;
     },

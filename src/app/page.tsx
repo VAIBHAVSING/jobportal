@@ -3,7 +3,6 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import JobList from '@/components/jobs/JobList';
 import { jobs } from '@/data/jobs';
 
 export default function HomePage() {

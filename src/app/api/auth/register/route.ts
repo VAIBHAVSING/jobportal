@@ -10,13 +10,13 @@ async function getUsers() {
     const filePath = path.join(process.cwd(), 'src/data/users.json');
     const data = await fs.readFile(filePath, 'utf8');
     return JSON.parse(data);
-  } catch (error) {
+  } catch (_) {
     // If file doesn't exist, return empty array
     return [];
   }
 }
 
-async function saveUsers(users: any[]) {
+async function saveUsers(users: Record<string, unknown>[]) {
   const filePath = path.join(process.cwd(), 'src/data/users.json');
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   await fs.writeFile(filePath, JSON.stringify(users, null, 2));
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     const users = await getUsers();
     
     // Check if user already exists
-    const existingUser = users.find((user: any) => user.email === email);
+    const existingUser = users.find((user: Record<string, unknown>) => user.email === email);
     if (existingUser) {
       return NextResponse.json(
         { message: "User already exists with this email" },

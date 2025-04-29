@@ -30,7 +30,7 @@ const LoginForm: React.FC = () => {
       } else {
         router.push('/dashboard');
       }
-    } catch (err) {
+    } catch (_) {
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);

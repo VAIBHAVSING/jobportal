@@ -47,7 +47,7 @@ const RegisterForm: React.FC = () => {
             } else {
                 setError(data.message || 'Registration failed');
             }
-        } catch (err) {
+        } catch (_) {
             setError('An unexpected error occurred. Please try again.');
         } finally {
             setIsLoading(false);
