@@ -12,7 +12,7 @@ async function getUsers() {
     const filePath = path.join(process.cwd(), 'src/data/users.json');
     const data = await fs.readFile(filePath, 'utf8');
     return JSON.parse(data);
-  } catch (_) {
+  } catch {
     // If file doesn't exist, return empty array
     return [];
   }
